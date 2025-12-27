@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>07.01.26</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Crimson+Text:ital,wght@0,400;0,600;1,400&family=Playfair+Display:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Crimson Text', serif;
+            background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 50%, #1a1a1a 100%);
+            color: #ffffff;
+            min-height: 100vh;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* Animated background pattern */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                radial-gradient(circle at 20% 50%, rgba(255, 255, 255, 0.03) 0%, transparent 50%),
+                radial-gradient(circle at 80% 80%, rgba(255, 255, 255, 0.03) 0%, transparent 50%);
+            animation: bgMove 20s ease-in-out infinite;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        @keyframes bgMove {
+            0%, 100% { transform: translate(0, 0); }
+            50% { transform: translate(20px, 20px); }
+        }
+
+        /* Confetti container */
+        .confetti-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+            overflow: hidden;
+        }
+
+        /* Stars container */
+        .stars-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+            overflow: hidden;
+        }
+
+        /* Glowing stars */
+        .star {
+            position: absolute;
+            width: 3px;
+            height: 3px;
+            background: #ffffff;
+            border-radius: 50%;
+            box-shadow: 0 0 10px #ffffff, 0 0 20px #ffffff;
+            animation: starTwinkle ease-in-out infinite;
+        }
+
+        @keyframes starTwinkle {
+            0%, 100% {
+                opacity: 0;
+                transform: scale(0);
+            }
+            50% {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        /* Glowing confetti hearts */
+        .confetti {
+            position: absolute;
+            width: 15px;
+            height: 15px;
+            background: #ffffff;
+            opacity: 0;
+            animation: fall linear infinite;
+            box-shadow: 0 0 10px #ffffff, 0 0 20px #ffffff, 0 0 30px #ffffff;
+        }
+
+        .confetti::before,
+        .confetti::after {
+            content: '';
+            position: absolute;
+            width: 15px;
+            height: 15px;
+            background: #ffffff;
+            border-radius: 50%;
+            box-shadow: 0 0 10px #ffffff;
+        }
+
+        .confetti::before {
+            top: -7.5px;
+            left: 0;
+        }
+
+        .confetti::after {
+            top: 0;
+            left: 7.5px;
+        }
+
+        @keyframes fall {
+            0% {
+                top: -10%;
+                opacity: 0.8;
+                transform: translateX(0) rotate(0deg);
+            }
+            100% {
+                top: 110%;
+                opacity: 0;
+                transform: translateX(100px) rotate(360deg);
+            }
+        }
+
+        /* Content sections */
+        .text1, .wish, .thoughts, .goodbye, .last {
+            position: relative;
+            z-index: 2;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 60px 30px;
+            min-height: 100vh;
+            display: none;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            animation: fadeIn 1s ease-in;
+        }
+
+        .text1 {
+            display: flex;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(2rem, 6vw, 4rem);
+            margin-bottom: 30px;
+            background: linear-gradient(90deg, #ffffff, #cccccc, #ffffff);
+            background-size: 200% auto;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: shimmer 3s linear infinite, float 3s ease-in-out infinite;
+            text-shadow: 0 0 30px rgba(255, 255, 255, 0.5);
+            letter-spacing: 2px;
+            font-weight: 700;
+        }
+
+        @keyframes shimmer {
+            to {
+                background-position: 200% center;
+            }
+        }
+
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0px);
+            }
+            50% {
+                transform: translateY(-10px);
+            }
+        }
+
+        h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(1.5rem, 4vw, 2.5rem);
+            margin: 30px 0 20px;
+            color: #ffffff;
+            animation: fadeIn 1s ease-in 0.3s both;
+            font-weight: 600;
+        }
+
+        p {
+            font-size: clamp(1rem, 2.5vw, 1.3rem);
+            line-height: 1.8;
+            margin: 15px 0;
+            color: #e0e0e0;
+            animation: fadeIn 1s ease-in 0.5s both;
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.1);
+        }
+
+        .button {
+            position: relative;
+            z-index: 2;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 30px;
+            display: none;
+            justify-content: center;
+            animation: fadeIn 1s ease-in 0.7s both;
+        }
+
+        .text1 ~ .button {
+            display: flex;
+        }
+
+        button {
+            padding: 18px 50px;
+            font-size: clamp(1rem, 2.5vw, 1.3rem);
+            font-weight: 600;
+            color: #000000;
+            background: #ffffff;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 0 20px rgba(255, 255, 255, 0.4);
+            position: relative;
+            overflow: hidden;
+            letter-spacing: 1px;
+            margin-top: 20px;
+        }
+
+        button::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            border-radius: 50%;
+            background: rgba(0, 0, 0, 0.1);
+            transform: translate(-50%, -50%);
+            transition: width 0.6s, height 0.6s;
+        }
+
+        button:hover::before {
+            width: 300px;
+            height: 300px;
+        }
+
+        button:hover {
+            transform: scale(1.05) translateY(-2px);
+            box-shadow: 0 0 40px rgba(255, 255, 255, 0.8);
+        }
+
+        button:active {
+            transform: scale(0.98);
+        }
+
+        /* Glowing border effect */
+        .text1::before, .wish::before, .thoughts::before, .goodbye::before, .last::before {
+            content: '';
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            right: 20px;
+            bottom: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            pointer-events: none;
+            animation: borderGlow 3s ease-in-out infinite;
+        }
+
+        @keyframes borderGlow {
+            0%, 100% {
+                box-shadow: 0 0 20px rgba(255, 255, 255, 0.1);
+            }
+            50% {
+                box-shadow: 0 0 40px rgba(255, 255, 255, 0.2);
+            }
+        }
+
+        /* Responsive typography */
+        @media (max-width: 768px) {
+            .text1, .wish, .thoughts, .goodbye, .last {
+                padding: 40px 20px;
+            }
+
+            p {
+                line-height: 1.6;
+            }
+
+            button {
+                padding: 15px 40px;
+            }
+
+            .confetti {
+                width: 12px;
+                height: 12px;
+            }
+
+            .confetti::before,
+            .confetti::after {
+                width: 12px;
+                height: 12px;
+            }
+        }
+
+        /* Desktop specific */
+        @media (min-width: 1024px) {
+            .text1, .wish, .thoughts, .goodbye, .last {
+                padding: 80px 60px;
+            }
+        }
+
+        /* Show active section */
+        .show {
+            display: flex !important;
+        }
+
+        /* Hide inactive sections */
+        .hide {
+            display: none !important;
+        }
+    </style>
+</head>
+<body>
+    <!-- Stars container -->
+    <div class="stars-container" id="starsContainer"></div>
+    
+    <!-- Confetti container -->
+    <div class="confetti-container" id="confettiContainer"></div>
+
+    <div class="text1 show">
+        <h1>Hey how are you ?</h1>
+        <p>I guess we are not talking anymore cause you are seeing this</p>
+        <h2>How is life?</h2>
+        <p>is everything going okay ?</p>
+        <p>I know I am asking too many Questions even though I am not gonna able to hear the answers ! hehe!</p>
+        <p>Can you click the button below ? pretty please!</p>
+        <button onclick="showNext(this)">Click here</button>
+    </div>
+
+    <div class="wish hide">
+        <h1>Happy Birthday! Puspi</h1>
+        <p>Sad to wish you like this but I had no other way</p>
+        <p>can you press the next? please baby!</p>
+        <button onclick="showNext(this)">Next</button>
+    </div>
+
+    <div class="thoughts hide">
+        <p>You know I wanted to celebrate this day with you <br> but kopal ki korbo bolo chaisilam tmke niye <br>Bengal Cafe te boshbo tmi coffee khaba ami <br>boshe tmr coffee khawa dekhbo
+        but jaak hoilo na <br>dosh to kinda amr e ki korbo ami pura duniyar shobar jonno <br>understanding hoilew jar sathe understanding beshi howar <br> dorkar chilo tar sathe build korte pari nai <br> can you press the next button ?please shona! </p>
+        <button onclick="showNext(this)">Next</button>
+    </div>
+
+    <div class="goodbye hide">
+        <p>You are still the love of my life <br>You are the only person je amake <br> realize koraise je majhe majhe kichu perticular manusher jonno <br>nijere change kora is not a big deal <br>Can you please go to the next page Janu ? </p>
+        <button onclick="showNext(this)">Next</button>
+    </div>
+
+    <div class="last hide">
+        <p>i know you dont like being called babu janu shona etc etc <br>
+        but direct converseation e bolte pari nai so bhablam eikahnei boli hehe <br>I guess its GoodBye then Stay safe Stay happy <br>And Happy Birthday Again</p>
+    </div>
+
+    <script>
+        // Create confetti hearts
+        function createConfetti() {
+            const container = document.getElementById('confettiContainer');
+            const confettiCount = window.innerWidth < 768 ? 20 : 30;
+            
+            for (let i = 0; i < confettiCount; i++) {
+                const confetti = document.createElement('div');
+                confetti.className = 'confetti';
+                confetti.style.left = Math.random() * 100 + '%';
+                confetti.style.animationDuration = (Math.random() * 3 + 4) + 's';
+                confetti.style.animationDelay = Math.random() * 5 + 's';
+                container.appendChild(confetti);
+            }
+        }
+
+        // Create twinkling stars
+        function createStars() {
+            const container = document.getElementById('starsContainer');
+            const starCount = window.innerWidth < 768 ? 50 : 80;
+            
+            for (let i = 0; i < starCount; i++) {
+                const star = document.createElement('div');
+                star.className = 'star';
+                star.style.left = Math.random() * 100 + '%';
+                star.style.top = Math.random() * 100 + '%';
+                star.style.animationDuration = (Math.random() * 3 + 2) + 's';
+                star.style.animationDelay = Math.random() * 5 + 's';
+                
+                // Random star sizes
+                const size = Math.random() * 2 + 2;
+                star.style.width = size + 'px';
+                star.style.height = size + 'px';
+                
+                container.appendChild(star);
+            }
+        }
+
+        // Show next section
+        function showNext(button) {
+            const currentSection = button.closest('div[class^="text"], div[class^="wish"], div[class^="thoughts"], div[class^="goodbye"]');
+            const allSections = document.querySelectorAll('.text1, .wish, .thoughts, .goodbye, .last');
+            let currentIndex = Array.from(allSections).indexOf(currentSection);
+            
+            if (currentIndex < allSections.length - 1) {
+                // Hide current section
+                currentSection.classList.remove('show');
+                currentSection.classList.add('hide');
+                
+                // Show next section
+                allSections[currentIndex + 1].classList.remove('hide');
+                allSections[currentIndex + 1].classList.add('show');
+                
+                // Scroll to top
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }
+        }
+
+        // Initialize
+        createConfetti();
+        createStars();
+    </script>
+</body>
+</html>
