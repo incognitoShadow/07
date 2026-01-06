@@ -76,7 +76,12 @@
             background: #ffffff;
             border-radius: 50%;
             box-shadow: 0 0 10px #ffffff, 0 0 20px #ffffff;
-            animation: starTwinkle ease-in-out infinite;
+            animation: starTwinkle ease-in-out;
+            animation-play-state: paused;
+        }
+
+        .star.active {
+            animation-play-state: running;
         }
 
         @keyframes starTwinkle {
@@ -97,8 +102,13 @@
             height: 15px;
             background: #ffffff;
             opacity: 0;
-            animation: fall linear infinite;
+            animation: fall linear;
+            animation-play-state: paused;
             box-shadow: 0 0 10px #ffffff, 0 0 20px #ffffff, 0 0 30px #ffffff;
+        }
+
+        .confetti.active {
+            animation-play-state: running;
         }
 
         .confetti::before,
@@ -424,6 +434,9 @@
 
         // Show next section
         function showNext(button) {
+            // Trigger animations
+            triggerAnimations();
+            
             const currentSection = button.closest('div[class^="text"], div[class^="wish"], div[class^="thoughts"], div[class^="goodbye"]');
             const allSections = document.querySelectorAll('.text1, .wish, .thoughts, .goodbye, .last');
             let currentIndex = Array.from(allSections).indexOf(currentSection);
@@ -440,6 +453,30 @@
                 // Scroll to top
                 window.scrollTo({ top: 0, behavior: 'smooth' });
             }
+        }
+
+        // Trigger confetti and stars animation
+        function triggerAnimations() {
+            const confetti = document.querySelectorAll('.confetti');
+            const stars = document.querySelectorAll('.star');
+            
+            // Activate confetti
+            confetti.forEach(c => {
+                c.classList.add('active');
+                // Reset after animation
+                setTimeout(() => {
+                    c.classList.remove('active');
+                }, parseFloat(c.style.animationDuration) * 1000);
+            });
+            
+            // Activate stars
+            stars.forEach(s => {
+                s.classList.add('active');
+                // Reset after animation
+                setTimeout(() => {
+                    s.classList.remove('active');
+                }, parseFloat(s.style.animationDuration) * 1000);
+            });
         }
 
         // Initialize
